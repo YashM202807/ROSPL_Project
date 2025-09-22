@@ -1204,7 +1204,7 @@
                     
                     // Enable add number button if we have a valid number
                     if (mostCommon !== '?') {
-                        addNumberBtn.disabled = true; // Disable manual add when auto-add is active
+                        addNumberBtn.disabled = false;
                         
                         // Start threshold timer for auto-adding
                         startThresholdTimer(mostCommon);
@@ -1377,6 +1377,14 @@
                 } else {
                     numberInput.value = lastDetectedNumber.toString();
                 }
+                
+                // Show visual feedback
+                detectedNumberElement.style.transform = 'scale(1.3)';
+                detectedNumberElement.style.color = '#2ECC71';
+                setTimeout(() => {
+                    detectedNumberElement.style.transform = 'scale(1)';
+                    detectedNumberElement.style.color = '#4fc3f7';
+                }, 500);
                 
                 // Reset detection for next number
                 lastDetectedNumber = null;
