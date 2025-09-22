@@ -759,6 +759,7 @@
         // Password state
         let emojiPassword = '';
         let shuffledEmojiMap = {}; // Maps emoji to number in shuffled list
+        let shuffledEmojisArray = []; // Stores the shuffled array of emojis
         
         // Hand detection variables
         let hands;
@@ -937,6 +938,7 @@
         function shuffleEmojis() {
             // Create a copy of available emojis and shuffle it
             const shuffled = [...availableEmojis].sort(() => Math.random() - 0.5);
+            shuffledEmojisArray = shuffled; // Store the shuffled array
             
             // Create mapping from emoji to number (0-based index)
             shuffledEmojiMap = {};
@@ -1202,7 +1204,7 @@
                     
                     // Enable add number button if we have a valid number
                     if (mostCommon !== '?') {
-                        addNumberBtn.disabled = false;
+                        addNumberBtn.disabled = true; // Disable manual add when auto-add is active
                         
                         // Start threshold timer for auto-adding
                         startThresholdTimer(mostCommon);
@@ -1475,16 +1477,14 @@
                 return;
             }
             
-            // Convert numbers back to emojis using the shuffled map
-            const reconstructedPassword = numbers.map(num => {
-                // Find emoji for this number
-                for (const [emoji, number] of Object.entries(shuffledEmojiMap)) {
-                    if (number === num) {
-                        return emoji;
-                    }
-                }
-                return null;
-            }).join('');
+            // Check if any number is out of bounds
+            if (numbers.some(num => num < 0 || num >= shuffledEmojisArray.length)) {
+                alert(`Please enter valid numbers (0 to ${shuffledEmojisArray.length - 1})`);
+                return;
+            }
+            
+            // Convert numbers back to emojis using the shuffled array
+            const reconstructedPassword = numbers.map(num => shuffledEmojisArray[num]).join('');
             
             // Check if reconstructed password matches original
             if (reconstructedPassword === emojiPassword) {
