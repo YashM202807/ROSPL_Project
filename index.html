@@ -1337,7 +1337,6 @@
             isDetecting = false;
             startDetectionBtn.disabled = false;
             stopDetectionBtn.disabled = true;
-            addNumberBtn.disabled = true;
             
             if (camera) {
                 camera.stop();
@@ -1389,7 +1388,6 @@
                 // Reset detection for next number
                 lastDetectedNumber = null;
                 detectedNumberElement.textContent = '-';
-                addNumberBtn.disabled = true;
             }
         }
         
